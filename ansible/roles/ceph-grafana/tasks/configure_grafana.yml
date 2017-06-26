@@ -5,6 +5,31 @@
     state: started
     enabled: true
 
+- name: Write grafana.ini
+  copy:
+    src: files/grafana.ini
+    dest: /etc/grafana/grafana.ini
+    owner: root
+    group: grafana
+    mode: 0640
+  tags: [ini]
+  notify: Restart Grafana
+
+- name: Set domain in grafana.ini
+  lineinfile:
+    dest: /etc/grafana/grafana.ini
+    regexp: "^domain = .*"
+    insertafter: "^;domain = .*"
+    line: "domain = {{ ansible_fqdn }}"
+  tags: [ini]
+  notify: Restart Grafana
+
+- meta: flush_handlers
+
+- name: Wait for grafana to start
+  wait_for:
+    port: 3000
+
 - set_fact:
     grafana_data_source: >
       {
@@ -51,25 +76,6 @@
     body: "{{ grafana_data_source }}"
     status_code: 200
   when: grafana_data_source_result is defined and grafana_data_source_result.status == 409
-
-- name: Write grafana.ini
-  copy:
-    src: files/grafana.ini
-    dest: /etc/grafana/grafana.ini
-    owner: root
-    group: grafana
-    mode: 0640
-  tags: [ini]
-  notify: Restart Grafana
-
-- name: Set domain in grafana.ini
-  lineinfile:
-    dest: /etc/grafana/grafana.ini
-    regexp: "^domain = .*"
-    insertafter: "^;domain = .*"
-    line: "domain = {{ ansible_fqdn }}"
-  tags: [ini]
-  notify: Restart Grafana
 
 - include: grafana_plugins.yml
   when: devel_mode
