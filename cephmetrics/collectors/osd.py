@@ -3,9 +3,9 @@
 import os
 import time
 
-from collectors.base import BaseCollector
-from collectors.common import (todict, fread, freadlines, merge_dicts,
-                               IOstat, Disk)
+from cephmetrics.collectors.base import BaseCollector
+from cephmetrics.collectors.common import (
+    todict, fread, freadlines, merge_dicts, IOstat, Disk)
 
 __author__ = "Paul Cuzner"
 
