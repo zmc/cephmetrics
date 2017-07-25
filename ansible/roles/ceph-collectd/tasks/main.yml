@@ -21,7 +21,7 @@
 - include: configure_collectd.yml
   when: not containerized_deployment
   tags:
-    - collectors
+    - collectd
 
 - include: selinux.yml
   when:
