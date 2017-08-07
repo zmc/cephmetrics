@@ -96,9 +96,20 @@ class OfflineBase(OnlineBase):
                 return [
                     '/dev/sdd1 /var/lib/ceph/osd/ceph-10 xfs rw,seclabel,noatime,swalloc,attr2,largeio,inode64,noquota 0 0',  # noqa
                 ]
+            elif path == '/proc/diskstats':
+                return [
+                    '   8      33 sdc1 11402 3417 864978 249740 913160 1099421 16945856 4648651 0 3427448 4907781',  # noqa
+                ]
         self.patchers['freadlines'] = patch(
             'cephmetrics.collectors.common.freadlines',
             fake_freadlines,
+        )
+
+        def fake_fread(path):
+            return '0'
+        self.patchers['fread'] = patch(
+            'cephmetrics.collectors.common.fread',
+            fake_fread,
         )
 
     def start_patchers(self):
