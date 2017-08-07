@@ -6,9 +6,15 @@ from collections import OrderedDict
 from mock import patch, Mock, MagicMock
 from pytest import skip
 
+ONLINE = (os.environ.get('TEST_ONLINE', '1') == '1')
 
 sys.path.insert(0, os.path.abspath(os.path.join(
     os.path.dirname(__file__), '..', '..')))
+
+
+def patch_offline(*args, **kwargs):
+    if not ONLINE:
+        return patch(*args, **kwargs)
 
 
 class OnlineBase(object):
@@ -77,6 +83,12 @@ class OfflineBase(OnlineBase):
             'cephmetrics.collectors.mon.Mon._get_version',
         )
         self.patchers['mon_get_version'].return_value = 11.0
+        self.patchers['mon_get_pool_stats'] = patch(
+            'cephmetrics.collectors.mon.Mon._get_pool_stats',
+        )
+        self.patchers['mon_get_osd_states'] = patch(
+            'cephmetrics.collectors.mon.Mon._get_osd_states',
+        )
 
         def fake_exists(path):
             if path.endswith('.asok'):
@@ -90,26 +102,11 @@ class OfflineBase(OnlineBase):
             'os.path.exists',
             fake_exists,
         )
-
-        def fake_freadlines(path):
-            if path == '/proc/mounts':
-                return [
-                    '/dev/sdd1 /var/lib/ceph/osd/ceph-10 xfs rw,seclabel,noatime,swalloc,attr2,largeio,inode64,noquota 0 0',  # noqa
-                ]
-            elif path == '/proc/diskstats':
-                return [
-                    '   8      33 sdc1 11402 3417 864978 249740 913160 1099421 16945856 4648651 0 3427448 4907781',  # noqa
-                ]
         self.patchers['freadlines'] = patch(
             'cephmetrics.collectors.common.freadlines',
-            fake_freadlines,
         )
-
-        def fake_fread(path):
-            return '0'
         self.patchers['fread'] = patch(
             'cephmetrics.collectors.common.fread',
-            fake_fread,
         )
 
     def start_patchers(self):
@@ -119,7 +116,7 @@ class OfflineBase(OnlineBase):
             (994349350912, 96942489600, 10.0)
 
 
-if os.environ.get('TEST_ONLINE', '1') == '1':
+if ONLINE:
     Base = OnlineBase
 else:
     Base = OfflineBase
