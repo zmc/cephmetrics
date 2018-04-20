@@ -26,3 +26,6 @@
 
 - include: setup_container.yml
   when: prometheus.containerized
+
+- import_tasks: install_packages.yml
+  when: not prometheus.containerized
