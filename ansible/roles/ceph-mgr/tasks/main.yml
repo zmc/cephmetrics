@@ -9,7 +9,7 @@
 
 - name: Check to see if the mgr is containerized
   command: "docker inspect {{ item }}"
-  loop:
+  with_items:
     - "ceph-mgr@{{ ansible_hostname }}"
     - "ceph-mgr-{{ ansible_hostname }}"
   register: mgr_container
