@@ -19,27 +19,27 @@ Below, we'll document the variables used by our various roles.
 
 ## ceph-collectd
 
-  cluster: ceph
-  collector_dependencies:
-    yum:
-      # For the json python module
-      - python-libs
-      # For the rados python module
-      - python-rados
-      # For the ceph_daemon python module
-      - ceph-common
-      # For semodule
-      - make
-      - libsemanage-python
-      - policycoreutils-python
-      - selinux-policy-devel
-    apt:
-      # For the json module, via libpython2.7-stdlib
-      - python2.7
-      # For the rados python module
-      - python-rados
-      # For the ceph_daemon python module
-      - ceph-common
+    cluster: ceph
+    collector_dependencies:
+      yum:
+        # For the json python module
+        - python-libs
+        # For the rados python module
+        - python-rados
+        # For the ceph_daemon python module
+        - ceph-common
+        # For semodule
+        - make
+        - libsemanage-python
+        - policycoreutils-python
+        - selinux-policy-devel
+      apt:
+        # For the json module, via libpython2.7-stdlib
+        - python2.7
+        # For the rados python module
+        - python-rados
+        # For the ceph_daemon python module
+        - ceph-common
 
 
 ## ceph-docker
