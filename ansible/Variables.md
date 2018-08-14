@@ -5,13 +5,13 @@ Defaults for each role's variables are stored in
 `roles/<role_name>/defaults/main.yml`, as the value of a `dict` called
 `defaults`. A fake example for simplicity's sake:
 
-  $ cat ./ceph-fake_role/defaults/main.yaml
-  ---
-  defaults:
-    fake_role:
-      a_dict:
-        a_key: a_value
-      another_option: true
+    $ cat ./ceph-fake_role/defaults/main.yaml
+    ---
+    defaults:
+      fake_role:
+        a_dict:
+          a_key: a_value
+        another_option: true
 
 Below, we'll document the variables used by our various roles.
 
