@@ -19,7 +19,7 @@ Below, we'll document the variables used by our various roles.
 
 ## ceph-collectd
 Note that these variables *only* apply to `collectd`-based deployments, which
-are depracated.
+are deprecated.
 
 `cluster`: The name of the Ceph cluster
 
@@ -77,7 +77,9 @@ devel_packages:
     # for dashUpdater.py
     - python-yaml
     - python-requests
----
+
+
+## ceph-graphite
 devel_packages:
   yum:
     - graphite-web
@@ -88,8 +90,10 @@ devel_packages:
     - libapache2-mod-wsgi
     - graphite-carbon
 
+
 ## ceph-mgr
 There are no variables to set for this role.
+
 
 ## ceph-node-exporter
   node_exporter:
@@ -102,6 +106,7 @@ There are no variables to set for this role.
       yum:
         - prometheus-node_exporter
   service_name: node_exporter
+
 
 ## ceph-prometheus
   prometheus:
@@ -118,45 +123,47 @@ There are no variables to set for this role.
     user_id: '65534'  # This is the UID used by the prom/prometheus docker image
 
 ## cephmetrics-common
-  containerized: true
-  backend:
-    metrics: mgr  # mgr, cephmetrics
-    storage: prometheus  # prometheus, graphite
-  devel_mode: true
-  graphite:
-    service: graphite-web
-    web_port: "{{ graphite_port | default('8080') }}"
-    api_port: 8888
-    # The unix account running the graphite-web process
-    unix_user:
-      yum: apache
-      apt: _graphite
-    build_index:
-      yum: '/usr/bin/graphite-build-index'
-      apt: '/usr/bin/graphite-build-search-index'
-    apache_name:
-      yum: 'httpd'
-      apt: 'apache2'
-    apache_conf:
-      yum: '/etc/httpd/conf/httpd.conf'
-      apt: '/etc/apache2/apache2.conf'
-    site_conf:
-      yum: '/etc/httpd/conf.d/graphite-web.conf'
-      apt: '/etc/apache2/sites-available/graphite-web.conf'
-    app_conf:
-      yum: '/etc/graphite-web/local_settings.py'
-      apt: '/etc/graphite/local_settings.py'
-  carbon:
-    unix_user:
-      yum: carbon
-      apt: _graphite
-    storage_dir:
-      yum: /var/lib/carbon
-      apt: /var/lib/graphite
-  whisper:
-    retention:
-      - ['10s', '7d']
-      - ['1m', '30d']
-      - ['15m', '5y']
-  # The firewalld zone that carbon and grafana will use
-  firewalld_zone: public
+`containerized`: Whether or not to deploy Grafana and Prometheus as containers (as opposed to packages)
+`backend.metrics`: The source of Ceph metrics. The default, and only supported setting is `mgr`; the older `collectd` system can be used by setting `cephmetrics` here.
+`backend.storage`: Must be
+backend:
+  metrics: mgr  # mgr, cephmetrics
+  storage: prometheus  # prometheus, graphite
+devel_mode: true
+graphite:
+  service: graphite-web
+  web_port: "{{ graphite_port | default('8080') }}"
+  api_port: 8888
+  # The unix account running the graphite-web process
+  unix_user:
+    yum: apache
+    apt: _graphite
+  build_index:
+    yum: '/usr/bin/graphite-build-index'
+    apt: '/usr/bin/graphite-build-search-index'
+  apache_name:
+    yum: 'httpd'
+    apt: 'apache2'
+  apache_conf:
+    yum: '/etc/httpd/conf/httpd.conf'
+    apt: '/etc/apache2/apache2.conf'
+  site_conf:
+    yum: '/etc/httpd/conf.d/graphite-web.conf'
+    apt: '/etc/apache2/sites-available/graphite-web.conf'
+  app_conf:
+    yum: '/etc/graphite-web/local_settings.py'
+    apt: '/etc/graphite/local_settings.py'
+carbon:
+  unix_user:
+    yum: carbon
+    apt: _graphite
+  storage_dir:
+    yum: /var/lib/carbon
+    apt: /var/lib/graphite
+whisper:
+  retention:
+    - ['10s', '7d']
+    - ['1m', '30d']
+    - ['15m', '5y']
+# The firewalld zone that carbon and grafana will use
+firewalld_zone: public
