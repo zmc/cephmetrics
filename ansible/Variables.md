@@ -18,6 +18,7 @@ While each role's variables are stored as a single dict, individual values may b
 Below, we'll document the variables used by our various roles.
 
 ## ceph-collectd
+
   cluster: ceph
   collector_dependencies:
     yum:
