@@ -22,6 +22,7 @@ Note that these variables *only* apply to `collectd`-based deployments, which
 are depracated.
 
 `cluster`: The name of the Ceph cluster
+
 `collector_dependencies.(yum|apt)`: Lists of packages that the cephmetrics
 collectors require. Should not need overriding.
 
