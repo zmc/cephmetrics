@@ -26,40 +26,12 @@ are depracated.
 `collector_dependencies.(yum|apt)`: Lists of packages that the cephmetrics
 collectors require. Should not need overriding.
 
-    cluster: ceph
-    collector_dependencies:
-      yum:
-        # For the json python module
-        - python-libs
-        # For the rados python module
-        - python-rados
-        # For the ceph_daemon python module
-        - ceph-common
-        # For semodule
-        - make
-        - libsemanage-python
-        - policycoreutils-python
-        - selinux-policy-devel
-      apt:
-        # For the json module, via libpython2.7-stdlib
-        - python2.7
-        # For the rados python module
-        - python-rados
-        # For the ceph_daemon python module
-        - ceph-common
-
 
 ## ceph-docker
-  docker:
-    packages:
-      yum:
-        - docker
-        - docker-python
-      apt:
-        - docker.io
-        - python-docker
-    network_name: cephmetrics
-    service_name: docker
+
+`docker.packages.(yum|apt)`: The names of the `docker` and `docker-python` packages to install
+`network_name`: The name of the Docker network to create for the containers
+`service_name`: The name of the `systemd` service that controls the `docker` daemon. This will depend on the package used; for example, RHEL offers an alternative `docker-latest` package which would require setting this value to `docker-latest` as well.
 
 ## ceph-grafana
   # graphite defaults are now in the cephmetrics-common role since the
