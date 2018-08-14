@@ -18,6 +18,12 @@ While each role's variables are stored as a single dict, individual values may b
 Below, we'll document the variables used by our various roles.
 
 ## ceph-collectd
+Note that these variables *only* apply to `collectd`-based deployments, which
+are depracated.
+
+`cluster`: The name of the Ceph cluster
+`collector_dependencies.(yum|apt)`: Lists of packages that the cephmetrics
+collectors require. Should not need overriding.
 
     cluster: ceph
     collector_dependencies:
