@@ -29,9 +29,16 @@ collectors require. Should not need overriding.
 
 ## ceph-docker
 
-`docker.packages.(yum|apt)`: The names of the `docker` and `docker-python` packages to install
+`docker.packages.(yum|apt)`: The names of the `docker` and `docker-python`
+packages to install
+
 `network_name`: The name of the Docker network to create for the containers
-`service_name`: The name of the `systemd` service that controls the `docker` daemon. This will depend on the package used; for example, RHEL offers an alternative `docker-latest` package which would require setting this value to `docker-latest` as well.
+
+`service_name`: The name of the `systemd` service that controls the `docker`
+daemon. This will depend on the package used; for example, RHEL offers an
+alternative `docker-latest` package which would require setting this value to
+`docker-latest` as well.
+
 
 ## ceph-grafana
   # graphite defaults are now in the cephmetrics-common role since the
