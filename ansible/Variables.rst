@@ -144,7 +144,7 @@ ceph-prometheus
      data_dir: /var/lib/cephmetrics
      user_id: '65534'  # This is the UID used by the prom/prometheus docker image
 
-.. cephmetrics-common_:
+
 cephmetrics-common
 ==================
 
