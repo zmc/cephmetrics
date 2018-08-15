@@ -1,7 +1,6 @@
 
 Variables
 =========
-
 Cephmetrics allows for a number of variables to be set in order to change the default behavior of many of the Ansible roles used for deployment.
 
 Defaults for each role's variables are stored in
@@ -33,7 +32,6 @@ Below, we'll document the variables used by our various roles.
 
 ceph-collectd
 -------------
-
 Note that these variables *only* apply to ``collectd``\ -based deployments, which
 are deprecated.
 
@@ -45,7 +43,6 @@ collectors require. Should not need overriding.
 
 ceph-docker
 -----------
-
 ``docker.packages.(yum|apt)``\ : The names of the ``docker`` and ``docker-python``
 packages to install
 
@@ -58,16 +55,17 @@ alternative ``docker-latest`` package which would require setting this value to
 
 ceph-grafana
 ------------
-
 Top-level settings
 ``````````````````
 ``replace_dashboards``\ : Whether to override existing dashboards with the same name. Default: true
 
 ``update_alerts``\ : Whether to update the alerts dashboard along with the rest. Removes any user-defined alerts. Default: false
 
+``devel_packages.(yum|apt)``\ : Dependency packages to install when in ``devel_mode``.
+
+
 ``grafana`` settings
 ````````````````````
-
 ``container_name``\ : The name of the container to use, in ``[registry[:port]/]user/repo`` format. Default: ``grafana/grafana``.
 
 ``container_cpu_period``\ : This is passed to docker using the ``--cpu-period`` flag. Default: ``100000``
@@ -86,54 +84,33 @@ Top-level settings
 
 ``plugins``\ : The Grafana plugins to install. Default: ``vonage-status-panel, grafana-piechart-panel``
 
-``devel_packages.(yum|apt)``\ : Dependency packages to install when in ``devel_mode``.
-
-
 
 ceph-graphite
 -------------
+Top-level settings
+``````````````````
 
-  devel_packages:
-    yum:
-
-.. code-block::
-
-     - graphite-web
-     - python-carbon
-   apt:
-     - graphite-web
-     - apache2
-     - libapache2-mod-wsgi
-     - graphite-carbon
-
+``devel_packages.(yum|apt)``\ : Dependency packages to install when in ``devel_mode``.
 
 
 ceph-mgr
 --------
-
 There are no variables to set for this role.
 
 ceph-node-exporter
 ------------------
+``node_exporter`` settings
+``````````````````````````
 
-.. code-block::
+``arch_map``\ : When in ``devel_mode``, this is used when searching for upstream releases to download. Users should not need to override this.
 
-   node_exporter:
-     arch_map:
-       x86_64: amd64
-       i386: '386'
-     packages:
-       apt:
-         - prometheus-node-exporter
-       yum:
-         - prometheus-node_exporter
-   service_name: node_exporter
+``packages.(apt|yum)``\ : The name of the ``node_exporter`` package. Only relevant when ``devel_mode = false``.
 
+``service_name``\ : The name of the ``systemd`` service controlling ``node_exporter``. On RHEL, this should be set to ``prometheus-node-exporter``. Default: ``node_exporter``.
 
 
 ceph-prometheus
 ---------------
-
 ``prometheus``
 
 .. code-block::
