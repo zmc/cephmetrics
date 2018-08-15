@@ -1,7 +1,14 @@
-
+=========
 Variables
 =========
+
+Most users will not need to deviate from our defaults, save for the Grafana admin user's password. This document attempts to explain them just in case.
+
+-------------------
+Overriding Defaults
+-------------------
 Cephmetrics allows for a number of variables to be set in order to change the default behavior of many of the Ansible roles used for deployment.
+
 
 Defaults for each role's variables are stored in
 ``roles/<role_name>/defaults/main.yml``\ , as the value of a ``dict`` called
@@ -30,8 +37,13 @@ While each role's variables are stored as a single dict, individual values may b
 
 Below, we'll document the variables used by our various roles.
 
+----------------
+Settings by Role
+----------------
+
 ceph-collectd
--------------
+=============
+
 Note that these variables *only* apply to ``collectd``\ -based deployments, which
 are deprecated.
 
@@ -42,7 +54,7 @@ collectors require. Should not need overriding.
 
 
 ceph-docker
------------
+===========
 ``docker.packages.(yum|apt)``\ : The names of the ``docker`` and ``docker-python``
 packages to install
 
@@ -54,9 +66,11 @@ alternative ``docker-latest`` package which would require setting this value to
 ``docker-latest`` as well.
 
 ceph-grafana
-------------
+============
+
 Top-level settings
-``````````````````
+------------------
+
 ``replace_dashboards``\ : Whether to override existing dashboards with the same name. Default: true
 
 ``update_alerts``\ : Whether to update the alerts dashboard along with the rest. Removes any user-defined alerts. Default: false
@@ -65,7 +79,7 @@ Top-level settings
 
 
 ``grafana`` settings
-````````````````````
+--------------------
 ``container_name``\ : The name of the container to use, in ``[registry[:port]/]user/repo`` format. Default: ``grafana/grafana``.
 
 ``container_cpu_period``\ : This is passed to docker using the ``--cpu-period`` flag. Default: ``100000``
@@ -86,21 +100,23 @@ Top-level settings
 
 
 ceph-graphite
--------------
+=============
+Note that most of the settings relevant to Graphite are currently stored in the ``defaults.yml`` for cephmetrics-common_.
+
 Top-level settings
-``````````````````
+------------------
 
 ``devel_packages.(yum|apt)``\ : Dependency packages to install when in ``devel_mode``.
 
 
 ceph-mgr
---------
+========
 There are no variables to set for this role.
 
 ceph-node-exporter
-------------------
+==================
 ``node_exporter`` settings
-``````````````````````````
+--------------------------
 
 ``arch_map``\ : When in ``devel_mode``, this is used when searching for upstream releases to download. Users should not need to override this.
 
@@ -110,7 +126,7 @@ ceph-node-exporter
 
 
 ceph-prometheus
----------------
+===============
 ``prometheus``
 
 .. code-block::
@@ -128,12 +144,12 @@ ceph-prometheus
      data_dir: /var/lib/cephmetrics
      user_id: '65534'  # This is the UID used by the prom/prometheus docker image
 
-
+.. cephmetrics-common_:
 cephmetrics-common
-------------------
+==================
 
 Top-level settings
-``````````````````
+------------------
 
 ``devel_mode``\ : This setting controls various aspects of the deployment. Currently, ``devel_mode`` is most suitable for most non-RHEL users.
 
