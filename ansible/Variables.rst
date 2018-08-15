@@ -59,48 +59,34 @@ alternative ``docker-latest`` package which would require setting this value to
 ceph-grafana
 ------------
 
-.. code-block::
+Top-level settings
+``````````````````
+``replace_dashboards``\ : Whether to override existing dashboards with the same name. Default: true
 
-   # graphite defaults are now in the cephmetrics-common role since the
-   # ceph-collectd role needs access to them
-   replace_dashboards: true
-   update_alerts: false
-   grafana:
-     container_name: "grafana/grafana"
-     container_cpu_period: 100000
-     container_cpu_cores: 2
-     # container_memory is in GB
-     container_memory: 4
-     # version currently only applies to containers
-     version: latest
-     uid: 472
-     datasource: Local
-     # You need to change these in the web UI on an already deployed machine, first
-     # New deployments work fine
-     admin_user: admin
-     admin_password: admin
-     plugins:
-       - vonage-status-panel
-       - grafana-piechart-panel
+``update_alerts``\ : Whether to update the alerts dashboard along with the rest. Removes any user-defined alerts. Default: false
 
-  devel_packages:
-    yum:
+``grafana`` settings
+````````````````````
 
-.. code-block::
+``container_name``\ : The name of the container to use, in ``[registry[:port]/]user/repo`` format. Default: ``grafana/grafana``.
 
-     # unzip is needed to extract the Vonage plugin
-     - unzip
-     - grafana
-     # for dashUpdater.py
-     - PyYAML
-     - python-requests
-   apt:
-     # unzip is needed to extract the Vonage plugin
-     - unzip
-     - grafana
-     # for dashUpdater.py
-     - python-yaml
-     - python-requests
+``container_cpu_period``\ : This is passed to docker using the ``--cpu-period`` flag. Default: ``100000``
+
+``container_cpu_cores``\ : This is multiplied by ``container_cpu_period`` and passed to docker using the ``--cpu-quota`` flag. Default: ``2``
+
+``container_memory``\ : The size of the container's RAM quota, in GB. Default: ``4``
+
+``version``\ : Only for containers; this is the tag value passed to docker. Default: ``latest``
+
+``uid``\ : The UID of the ``grafana-server`` process inside the container. Default: ``472``
+
+``datasource``\ : The name of the datasource to create in Grafana. Currently unsafe to change. Default: ``Local``
+
+``admin_user`` and ``admin_password``\ : These are safe to set on new deployments. If you need to change the admin user's password later, use the web UI and then override the setting. Default: ``admin``/``admin``
+
+``plugins``\ : The Grafana plugins to install. Default: ``vonage-status-panel, grafana-piechart-panel``
+
+``devel_packages.(yum|apt)``\ : Dependency packages to install when in ``devel_mode``.
 
 
 
@@ -148,6 +134,8 @@ ceph-node-exporter
 ceph-prometheus
 ---------------
 
+``prometheus``
+
 .. code-block::
 
    prometheus:
@@ -167,16 +155,22 @@ ceph-prometheus
 cephmetrics-common
 ------------------
 
+Top-level settings
+``````````````````
+
+``devel_mode``\ : This setting controls various aspects of the deployment. Currently, ``devel_mode`` is most suitable for most non-RHEL users.
+
 ``containerized``\ : Whether or not to deploy Grafana and Prometheus as containers (as opposed to packages)
-``backend.metrics``\ : The source of Ceph metrics. The default, and only supported setting is ``mgr``\ ; the older ``collectd`` system can be used by setting ``cephmetrics`` here.
-``backend.storage``\ : Must be
+
+``backend`` settings
+````````````````````
+
+``metrics``\ : The source of Ceph metrics. The default, and only supported setting is ``mgr``\ ; the older ``collectd`` system can be used by setting ``cephmetrics`` here.
+
+``storage``\ : The storage mechanism used for the metrics. With ``mgr`` metrics, use ``prometheus``. With ``cephmetrics``, use ``collectd``.
 
 .. code-block::
 
-   backend:
-     metrics: mgr  # mgr, cephmetrics
-     storage: prometheus  # prometheus, graphite
-   devel_mode: true
    graphite:
      service: graphite-web
      web_port: "{{ graphite_port | default('8080') }}"
