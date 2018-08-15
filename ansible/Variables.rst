@@ -68,7 +68,6 @@ docker-latest as well. Default: docker
 ceph-grafana
 ============
 
-.. grafana-top_:
 Top-level settings
 ------------------
 
