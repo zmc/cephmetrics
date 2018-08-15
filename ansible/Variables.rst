@@ -35,7 +35,7 @@ While each role's variables are stored as a single dict, individual values may b
     another_option: false
 
 
-Below, we'll document the variables used by our various roles. To avoid clutter, we avoid listing default values when they are large and unlikely to be overridden.
+Below, we'll document the variables used by our various roles. Each role's section will list any top-level settings, as well as any settings in sub-dicts separately. To avoid clutter, we avoid listing default values when they are large and unlikely to be overridden.
 
 ----------------
 Settings by Role
@@ -78,8 +78,8 @@ Top-level settings
 ``devel_packages.(yum|apt)``\ : Dependency packages to install when in ``devel_mode``.
 
 
-``grafana`` settings
---------------------
+'grafana' settings
+------------------
 ``container_name``\ : The name of the container to use, in [registry[:port]/]user/repo format. Default: grafana/grafana.
 
 ``container_cpu_period``\ : This is passed to docker using the --cpu-period flag. Default: 100000
@@ -115,8 +115,8 @@ There are no variables to set for this role.
 
 ceph-node-exporter
 ==================
-``node_exporter`` settings
---------------------------
+'node_exporter' settings
+------------------------
 
 ``arch_map``\ : When in ``devel_mode``, this is used when searching for upstream releases to download. Users should not need to override this.
 
@@ -127,8 +127,8 @@ ceph-node-exporter
 
 ceph-prometheus
 ===============
-``prometheus`` settings
---------------------
+'prometheus' settings
+---------------------
 ``container_name``\ : The name of the container to use, in [registry[:port]/]user/repo format. Default: prom/prometheus.
 
 ``container_cpu_period``\ : This is passed to docker using the --cpu-period flag. Default: 100000
@@ -156,8 +156,8 @@ Top-level settings
 
 ``containerized``\ : Whether or not to deploy Grafana and Prometheus as containers (as opposed to packages)
 
-``backend`` settings
-````````````````````
+'backend' settings
+``````````````````
 
 ``metrics``\ : The source of Ceph metrics. The default, and only supported setting is 'mgr'\ ; the older collectd system can be used by setting 'cephmetrics' here.
 
