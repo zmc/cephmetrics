@@ -19,7 +19,15 @@ Defaults for each role's variables are stored in
        another_option: true
 
 
-While each role's variables are stored as a single dict, individual values may be overridden without having to redundantly specify values for the rest.
+While each role's variables are stored as a single dict, individual values may be overridden without having to redundantly specify values for the rest. Using the above example, if you wanted to override ``another_option``:
+
+.. code-block::
+
+  $ cat ./my-inventory/group_vars/all.yml
+  ---
+  fake_role:
+    another_option: false
+
 
 Below, we'll document the variables used by our various roles.
 
@@ -33,6 +41,7 @@ are deprecated.
 
 ``collector_dependencies.(yum|apt)``\ : Lists of packages that the cephmetrics
 collectors require. Should not need overriding.
+
 
 ceph-docker
 -----------
