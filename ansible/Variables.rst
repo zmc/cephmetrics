@@ -35,7 +35,7 @@ While each role's variables are stored as a single dict, individual values may b
     another_option: false
 
 
-Below, we'll document the variables used by our various roles.
+Below, we'll document the variables used by our various roles. To avoid clutter, we avoid listing default values when they are large and unlikely to be overridden.
 
 ----------------
 Settings by Role
@@ -44,10 +44,10 @@ Settings by Role
 ceph-collectd
 =============
 
-Note that these variables *only* apply to ``collectd``\ -based deployments, which
+Note that these variables *only* apply to collectd-based deployments, which
 are deprecated.
 
-``cluster``\ : The name of the Ceph cluster
+``cluster``\ : The name of the Ceph cluster. Default: ceph
 
 ``collector_dependencies.(yum|apt)``\ : Lists of packages that the cephmetrics
 collectors require. Should not need overriding.
@@ -55,15 +55,15 @@ collectors require. Should not need overriding.
 
 ceph-docker
 ===========
-``docker.packages.(yum|apt)``\ : The names of the ``docker`` and ``docker-python``
+``docker.packages.(yum|apt)``\ : The names of the docker and docker-python
 packages to install
 
-``network_name``\ : The name of the Docker network to create for the containers
+``network_name``\ : The name of the Docker network to create for the containers. Default: cephmetrics
 
-``service_name``\ : The name of the ``systemd`` service that controls the ``docker``
+``service_name``\ : The name of the systemd service that controls the docker
 daemon. This will depend on the package used; for example, RHEL offers an
-alternative ``docker-latest`` package which would require setting this value to
-``docker-latest`` as well.
+alternative docker-latest package which would require setting this value to
+docker-latest as well. Default: docker
 
 ceph-grafana
 ============
@@ -80,23 +80,23 @@ Top-level settings
 
 ``grafana`` settings
 --------------------
-``container_name``\ : The name of the container to use, in ``[registry[:port]/]user/repo`` format. Default: ``grafana/grafana``.
+``container_name``\ : The name of the container to use, in ``[registry[:port]/]user/repo`` format. Default: grafana/grafana.
 
-``container_cpu_period``\ : This is passed to docker using the ``--cpu-period`` flag. Default: ``100000``
+``container_cpu_period``\ : This is passed to docker using the ``--cpu-period`` flag. Default: 100000
 
-``container_cpu_cores``\ : This is multiplied by ``container_cpu_period`` and passed to docker using the ``--cpu-quota`` flag. Default: ``2``
+``container_cpu_cores``\ : This is multiplied by ``container_cpu_period`` and passed to docker using the ``--cpu-quota`` flag. Default: 2
 
-``container_memory``\ : The size of the container's RAM quota, in GB. Default: ``4``
+``container_memory``\ : The size of the container's RAM quota, in GB. Default: 4
 
-``version``\ : Only for containers; this is the tag value passed to docker. Default: ``latest``
+``version``\ : Only for containers; this is the tag value passed to docker. Default: latest
 
-``uid``\ : The UID of the ``grafana-server`` process inside the container. Default: ``472``
+``uid``\ : The UID of the ``grafana-server`` process inside the container. Default: 472
 
-``datasource``\ : The name of the datasource to create in Grafana. Currently unsafe to change. Default: ``Local``
+``datasource``\ : The name of the datasource to create in Grafana. Currently unsafe to change. Default: Local
 
-``admin_user`` and ``admin_password``\ : These are safe to set on new deployments. If you need to change the admin user's password later, use the web UI and then override the setting. Default: ``admin``/``admin``
+``admin_user`` and ``admin_password``\ : These are safe to set on new deployments. If you need to change the admin user's password later, use the web UI and then override the setting. Default: admin/admin
 
-``plugins``\ : The Grafana plugins to install. Default: ``vonage-status-panel, grafana-piechart-panel``
+``plugins``\ : The Grafana plugins to install. Default: vonage-status-panel, grafana-piechart-panel
 
 
 ceph-graphite
@@ -120,9 +120,9 @@ ceph-node-exporter
 
 ``arch_map``\ : When in ``devel_mode``, this is used when searching for upstream releases to download. Users should not need to override this.
 
-``packages.(apt|yum)``\ : The name of the ``node_exporter`` package. Only relevant when ``devel_mode = false``.
+``packages.(apt|yum)``\ : The name of the ``node_exporter`` package. Only relevant when ``devel_mode`` is false.
 
-``service_name``\ : The name of the ``systemd`` service controlling ``node_exporter``. On RHEL, this should be set to ``prometheus-node-exporter``. Default: ``node_exporter``.
+``service_name``\ : The name of the systemd service controlling node_exporter. On RHEL, this should be set to prometheus-node-exporter. Default: node_exporter.
 
 
 ceph-prometheus
